@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veille BIM & Construction Numérique — Québec</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+  :root {
+    --bg: #F4F1EC;
+    --bg2: #EAE6DE;
+    --surface: #FFFDF9;
+    --border: #D8D2C6;
+    --border2: #C4BDB0;
+    --text: #1C1915;
+    --text2: #5C5650;
+    --text3: #8C8680;
+    --accent: #1A3D2B;
+    --accent2: #2E6B4A;
+    --accent-light: #E8F2EC;
+    --yellow: #C8A43A;
+    --yellow-light: #FBF5E3;
+    --blue: #1E3A5F;
+    --blue-light: #E6EDF5;
+    --red: #8B2E2E;
+    --red-light: #F5E8E8;
+    --purple: #4A2E7A;
+    --purple-light: #EEE8F8;
+    --teal: #1A5C5C;
+    --teal-light: #E4F2F2;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --radius: 6px;
+    --radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.6; }
+
+  /* BANNER */
+  .update-banner {
+    background: #FBF5E3;
+    border-bottom: 1px solid #E8D79A;
+    padding: 0.65rem 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 13px;
+    color: #5C4A10;
+  }
+  .update-banner svg { width: 16px; height: 16px; flex-shrink: 0; color: #C8A43A; }
+  .update-banner strong { font-weight: 600; }
+  .btn-update-now {
+    margin-left: auto;
+    background: #1A3D2B;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.15s;
+  }
+  .btn-update-now:hover { background: #2E6B4A; }
+  .btn-update-now svg { width: 13px; height: 13px; }
+
+  /* HEADER */
+  header { background: var(--accent); color: #fff; padding: 2rem 2.5rem 1.75rem; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; border-radius: 50%; border: 40px solid rgba(255,255,255,0.05); }
+  header::after { content: ''; position: absolute; bottom: -40px; left: 30%; width: 140px; height: 140px; border-radius: 50%; border: 25px solid rgba(255,255,255,0.04); }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1; }
+  .header-title h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; color: #fff; line-height: 1.15; }
+  .header-title p { margin-top: 0.35rem; font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300; letter-spacing: 0.04em; text-transform: uppercase; }
+  .last-update { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 0.25rem; }
+  .stats-bar { display: flex; gap: 2rem; margin-top: 1.5rem; position: relative; z-index: 1; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num { font-family: var(--font-display); font-size: 1.6rem; color: #fff; line-height: 1; }
+  .stat-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.2rem; }
+
+  /* CONTROLS */
+  .controls { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+  .search-wrap { display: flex; align-items: center; gap: 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem 0.75rem; flex: 1; min-width: 180px; max-width: 280px; }
+  .search-wrap svg { width: 14px; height: 14px; color: var(--text3); flex-shrink: 0; }
+  .search-wrap input { border: none; background: transparent; font-family: var(--font-body); font-size: 13px; color: var(--text); outline: none; width: 100%; }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .filter-group { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; white-space: nowrap; }
+  .chip { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.7rem; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text2); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; white-space: nowrap; font-family: var(--font-body); }
+  .chip:hover { border-color: var(--border2); color: var(--text); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .view-toggle { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-left: auto; flex-shrink: 0; }
+  .view-btn { display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.75rem; background: transparent; border: none; color: var(--text3); cursor: pointer; font-size: 12px; font-family: var(--font-body); font-weight: 500; transition: all 0.15s; }
+  .view-btn svg { width: 14px; height: 14px; }
+  .view-btn.active { background: var(--accent); color: #fff; }
+
+  /* MAIN */
+  main { padding: 2rem 2.5rem; }
+
+  /* LIST */
+  .list-view { display: flex; flex-direction: column; gap: 1rem; }
+  .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; display: grid; grid-template-columns: auto 1fr auto; gap: 1.25rem; align-items: start; transition: box-shadow 0.2s, border-color 0.2s; cursor: pointer; }
+  .event-card:hover { border-color: var(--border2); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .event-date-col { display: flex; flex-direction: column; align-items: center; min-width: 52px; padding-top: 2px; }
+  .date-month { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); font-weight: 600; }
+  .date-day { font-family: var(--font-display); font-size: 2rem; color: var(--text); line-height: 1; }
+  .date-year { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .event-body { min-width: 0; }
+  .event-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+  .event-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--text); line-height: 1.3; margin-bottom: 0.3rem; }
+  .event-desc { font-size: 12.5px; color: var(--text2); line-height: 1.55; margin-bottom: 0.6rem; }
+  .event-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 11.5px; color: var(--text3); }
+  .event-meta span { display: flex; align-items: center; gap: 0.3rem; }
+  .event-meta svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .event-actions { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; }
+  .btn-cal { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: var(--accent-light); border: 1px solid #C4D9CB; border-radius: var(--radius); color: var(--accent); font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: var(--font-body); text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .btn-cal:hover { background: #D8EBE0; }
+  .btn-cal svg { width: 12px; height: 12px; }
+  .btn-inscr { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text2); font-size: 11.5px; font-weight: 500; cursor: pointer; font-family: var(--font-body); text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+  .btn-inscr:hover { background: var(--bg); border-color: var(--border2); color: var(--text); }
+  .btn-inscr svg { width: 12px; height: 12px; }
+
+  /* BADGES */
+  .badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.55rem; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .badge-conference { background: var(--blue-light); color: var(--blue); }
+  .badge-webinaire { background: var(--purple-light); color: var(--purple); }
+  .badge-formation { background: var(--yellow-light); color: #7A5C10; }
+  .badge-norme { background: var(--red-light); color: var(--red); }
+  .badge-outil { background: var(--teal-light); color: var(--teal); }
+  .badge-autre { background: var(--bg2); color: var(--text2); }
+  .badge-virtuel { background: var(--bg2); color: var(--text2); }
+  .badge-presentiel { background: var(--accent-light); color: var(--accent); }
+  .badge-hybride { background: var(--yellow-light); color: #7A5C10; }
+  .badge-gratuit { background: var(--accent-light); color: var(--accent); }
+  .badge-payant { background: var(--bg2); color: var(--text2); }
+
+  /* CALENDAR */
+  .calendar-view { display: none; }
+  .cal-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius-lg) var(--radius-lg) 0 0; overflow: hidden; }
+  .cal-dow { background: var(--bg2); text-align: center; padding: 0.5rem; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 600; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); overflow: hidden; }
+  .cal-day { background: var(--surface); min-height: 90px; padding: 0.5rem; }
+  .cal-day.other-month { background: var(--bg); }
+  .cal-day.today { background: var(--accent-light); }
+  .cal-day-num { font-size: 12px; font-weight: 500; color: var(--text3); margin-bottom: 0.3rem; line-height: 1; }
+  .cal-day.today .cal-day-num { background: var(--accent); color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+  .cal-event-pill { display: block; padding: 2px 5px; border-radius: 3px; font-size: 10px; font-weight: 500; margin-bottom: 2px; cursor: pointer; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; line-height: 1.4; }
+  .cal-event-pill.type-conference { background: var(--blue-light); color: var(--blue); }
+  .cal-event-pill.type-webinaire { background: var(--purple-light); color: var(--purple); }
+  .cal-event-pill.type-formation { background: var(--yellow-light); color: #7A5C10; }
+  .cal-event-pill.type-norme { background: var(--red-light); color: var(--red); }
+  .cal-event-pill.type-outil { background: var(--teal-light); color: var(--teal); }
+  .cal-event-pill.type-autre { background: var(--bg2); color: var(--text2); }
+  .cal-nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .cal-nav-btn { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+  .cal-nav-btn:hover { background: var(--bg2); }
+  .cal-nav-btn svg { width: 14px; height: 14px; }
+  .cal-month-title { font-family: var(--font-display); font-size: 1.2rem; color: var(--text); }
+
+  /* EMPTY */
+  .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text3); font-size: 13px; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,25,21,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; max-width: 520px; width: 100%; position: relative; border: 1px solid var(--border); }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; color: var(--text3); padding: 4px; display: flex; }
+  .modal-close svg { width: 16px; height: 16px; }
+  .modal h2 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.25rem; padding-right: 1.5rem; color: var(--text); }
+  .modal-body { margin-top: 1rem; }
+  .modal-row { display: flex; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-row-label { color: var(--text3); width: 90px; flex-shrink: 0; font-weight: 500; }
+  .modal-row-value { color: var(--text); flex: 1; }
+  .modal-row-value a { color: var(--accent2); text-decoration: none; }
+  .modal-row-value a:hover { text-decoration: underline; }
+  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .btn-primary { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-family: var(--font-body); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-primary svg { width: 13px; height: 13px; }
+  .btn-secondary { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.15s; }
+  .btn-secondary:hover { background: var(--bg); border-color: var(--border2); }
+  .btn-secondary svg { width: 13px; height: 13px; }
+
+  /* FOOTER */
+  .footer-note { margin-top: 2rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 11.5px; color: var(--text3); display: flex; gap: 0.5rem; align-items: flex-start; }
+  .footer-note svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<!-- BANNIÈRE MISE À JOUR (affichée uniquement si nécessaire) -->
+<div class="update-banner" id="updateBanner" style="display:none">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  <span><strong>Mise à jour disponible.</strong> Les données datent de plus d'un mois. Demandez une mise à jour à Claude pour obtenir un fichier frais.</span>
+  <a class="btn-update-now" href="https://claude.ai" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Demander à Claude
+  </a>
+</div>
+
+<header>
+  <div class="header-top">
+    <div class="header-title">
+      <h1>Veille BIM &amp; Construction Numérique</h1>
+      <p>Québec &amp; Canada — Événements et actualités</p>
+      <div class="last-update" id="lastUpdate"></div>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="statTotal">—</span><span class="stat-label">Événements</span></div>
+    <div class="stat"><span class="stat-num" id="statProchain">—</span><span class="stat-label">Prochains 30 jours</span></div>
+    <div class="stat"><span class="stat-num" id="statVirtuel">—</span><span class="stat-label">En ligne</span></div>
+    <div class="stat"><span class="stat-num" id="statGratuit">—</span><span class="stat-label">Gratuits</span></div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Rechercher…" oninput="applyFilters()">
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Type</span>
+    <button class="chip active" data-filter="type" data-val="tous" onclick="setFilter('type','tous',this)">Tous</button>
+    <button class="chip" data-filter="type" data-val="conference" onclick="setFilter('type','conference',this)"><span class="dot" style="background:var(--blue)"></span>Conférence</button>
+    <button class="chip" data-filter="type" data-val="webinaire" onclick="setFilter('type','webinaire',this)"><span class="dot" style="background:var(--purple)"></span>Webinaire</button>
+    <button class="chip" data-filter="type" data-val="formation" onclick="setFilter('type','formation',this)"><span class="dot" style="background:var(--yellow)"></span>Formation</button>
+    <button class="chip" data-filter="type" data-val="norme" onclick="setFilter('type','norme',this)"><span class="dot" style="background:var(--red)"></span>Norme</button>
+    <button class="chip" data-filter="type" data-val="outil" onclick="setFilter('type','outil',this)"><span class="dot" style="background:var(--teal)"></span>Outil</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Format</span>
+    <button class="chip active" data-filter="format" data-val="tous" onclick="setFilter('format','tous',this)">Tous</button>
+    <button class="chip" data-filter="format" data-val="virtuel" onclick="setFilter('format','virtuel',this)">Virtuel</button>
+    <button class="chip" data-filter="format" data-val="presentiel" onclick="setFilter('format','presentiel',this)">Présentiel</button>
+    <button class="chip" data-filter="format" data-val="hybride" onclick="setFilter('format','hybride',this)">Hybride</button>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Coût</span>
+    <button class="chip active" data-filter="cout" data-val="tous" onclick="setFilter('cout','tous',this)">Tous</button>
+    <button class="chip" data-filter="cout" data-val="gratuit" onclick="setFilter('cout','gratuit',this)">Gratuit</button>
+    <button class="chip" data-filter="cout" data-val="payant" onclick="setFilter('cout','payant',this)">Payant</button>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="btnList" onclick="setView('list')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Liste
+    </button>
+    <button class="view-btn" id="btnCal" onclick="setView('calendar')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Calendrier
+    </button>
+  </div>
+</div>
+
+<main>
+  <div id="listView" class="list-view"></div>
+  <div id="calendarView" class="calendar-view">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <span class="cal-month-title" id="calMonthTitle"></span>
+      <button class="cal-nav-btn" onclick="changeMonth(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="cal-header">
+      <div class="cal-dow">Dim</div><div class="cal-dow">Lun</div><div class="cal-dow">Mar</div>
+      <div class="cal-dow">Mer</div><div class="cal-dow">Jeu</div><div class="cal-dow">Ven</div><div class="cal-dow">Sam</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+  <div class="footer-note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Données compilées à partir des sources publiques de : Groupe BIM du Québec, BuildingSMART Canada, Bâtiment numérique Québec, Building Transformations Canada, Revizto, Autodesk University, Grands Bâtisseurs, AEQ. Vérifiez toujours les informations auprès des organisateurs avant de vous inscrire.
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DONNÉES — mises à jour manuellement chaque mois par Claude
+// Dernière mise à jour : 2026-05-05
+// Les événements dont la date de fin est passée sont
+// automatiquement masqués à l'affichage.
+// ============================================================
+const DATA_DATE = "2026-05-05";
+
+const EVENTS = [
+  {
+    id: "evt01",
+    titre: "Conférence Groupe BIM du Québec — Le scan 3D : technologies, usages et choix",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-05-21",
+    dateFin: "2026-05-21",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal (ÉTS) + En ligne",
+    description: "Conférence portant sur les technologies de scan 3D, leurs usages en construction et les critères de choix selon les contextes de projet. Présentation simultanée à Montréal et en ligne.",
+    lienInscription: "https://www.bimquebec.org/lescan3d-technologies-usages",
+    lienInfo: "https://www.bimquebec.org/lescan3d-technologies-usages"
+  },
+  {
+    id: "evt02",
+    titre: "AGA 2026 — Assemblée générale annuelle du Groupe BIM du Québec",
+    organisateur: "Groupe BIM du Québec",
+    type: "autre",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-04-21",
+    dateFin: "2026-04-21",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal (ÉTS, Salon des diplômés Vidéotron) + En ligne",
+    description: "Assemblée générale annuelle du Groupe BIM du Québec : rétrospective 2025, vision 2026, élection des postes vacants au CA. Membres en règle au 15 avril requis pour voter.",
+    lienInscription: "https://www.bimquebec.org/assembl%C3%A9e-g%C3%A9n%C3%A9rale-annuelle-2026",
+    lienInfo: "https://www.bimquebec.org/assembl%C3%A9e-g%C3%A9n%C3%A9rale-annuelle-2026"
+  },
+  {
+    id: "evt03",
+    titre: "Soirée-conférence BIM Québec — L'IA appliquée à la gestion de projet",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-04-21",
+    dateFin: "2026-04-21",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal + En ligne",
+    description: "Conférence sur l'application de l'intelligence artificielle à la gestion de projet en construction. Organisée en parallèle avec l'AGA 2026 du Groupe BIM du Québec.",
+    lienInscription: "https://www.bimquebec.org/evenements",
+    lienInfo: "https://aapq.org/evenements/soiree-conference-bim-quebec-lintelligence-artificielle-appliquee-a-la-gestion-de-projet/"
+  },
+  {
+    id: "evt04",
+    titre: "Salon de l'emploi des technologies en construction 2026",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "presentiel",
+    cout: "gratuit",
+    dateDebut: "2026-03-18",
+    dateFin: "2026-03-18",
+    heure: "11h00 – 17h30",
+    lieu: "Cégep du Vieux Montréal, 255 rue Ontario Est, Montréal",
+    description: "Salon de recrutement dédié aux métiers du numérique en construction. Ateliers pratiques, démonstrations de logiciels BIM, échanges avec des professionnels. Occasion pour les entreprises de rencontrer des candidats qualifiés en BIM.",
+    lienInscription: "https://www.bimquebec.org/setc-2026-montreal",
+    lienInfo: "https://www.bimquebec.org/setc-2026-montreal"
+  },
+  {
+    id: "evt05",
+    titre: "Mission commerciale québécoise — BIM World Paris 2026",
+    organisateur: "Groupe BIM du Québec / CCMM",
+    type: "conference",
+    format: "presentiel",
+    cout: "payant",
+    dateDebut: "2026-03-30",
+    dateFin: "2026-04-03",
+    heure: "Journée complète",
+    lieu: "Paris, France",
+    description: "Mission commerciale organisée par le Groupe BIM du Québec et la Chambre de commerce du Montréal métropolitain au salon BIM World Paris 2026. Accent sur les usages avancés du BIM, jumeaux numériques et IA appliquée à la construction.",
+    lienInscription: "https://www.bimquebec.org/bimworldparis2026",
+    lienInfo: "https://www.bimquebec.org/bimworldparis2026"
+  },
+  {
+    id: "evt06",
+    titre: "Conférence Groupe BIM du Québec — Juin 2026",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-06-18",
+    dateFin: "2026-06-18",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal (ÉTS) + En ligne",
+    description: "Conférence mensuelle du Groupe BIM du Québec. Thème à confirmer. Échanges entre praticiens BIM de l'industrie québécoise de la construction.",
+    lienInscription: "https://www.bimquebec.org/evenements",
+    lienInfo: "https://www.bimquebec.org/evenements"
+  },
+  {
+    id: "evt07",
+    titre: "Conférence Groupe BIM du Québec — Septembre 2026",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-09-17",
+    dateFin: "2026-09-17",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal (ÉTS) + En ligne",
+    description: "Conférence mensuelle du Groupe BIM du Québec à la rentrée. Thème à confirmer. Format hybride permettant la participation en présentiel et à distance.",
+    lienInscription: "https://www.bimquebec.org/evenements",
+    lienInfo: "https://www.bimquebec.org/evenements"
+  },
+  {
+    id: "evt08",
+    titre: "Conférence Groupe BIM du Québec — Novembre 2026",
+    organisateur: "Groupe BIM du Québec",
+    type: "conference",
+    format: "hybride",
+    cout: "gratuit",
+    dateDebut: "2026-11-18",
+    dateFin: "2026-11-18",
+    heure: "17h30 – 19h30",
+    lieu: "Montréal (ÉTS) + En ligne",
+    description: "Conférence mensuelle automnale du Groupe BIM du Québec. Thème à confirmer. Échanges entre professionnels du secteur de la construction numérique au Québec.",
+    lienInscription: "https://www.bimquebec.org/evenements",
+    lienInfo: "https://www.bimquebec.org/evenements"
+  },
+  {
+    id: "evt09",
+    titre: "Revizto — Webinaire de formation : coordination BIM et suivi de chantier",
+    organisateur: "Revizto",
+    type: "webinaire",
+    format: "virtuel",
+    cout: "gratuit",
+    dateDebut: "2026-05-28",
+    dateFin: "2026-05-28",
+    heure: "10h00 – 11h00",
+    lieu: "En ligne",
+    description: "Formation en ligne sur l'utilisation de Revizto pour la coordination BIM et le suivi des enjeux de chantier. Démo pratique de la plateforme incluant intégration Revit et gestion des issues en temps réel.",
+    lienInscription: "https://revizto.com/fr/events/",
+    lienInfo: "https://revizto.com/fr/events/"
+  },
+  {
+    id: "evt10",
+    titre: "Revizto — Webinaire : introduction pour entrepreneurs généraux",
+    organisateur: "Revizto",
+    type: "webinaire",
+    format: "virtuel",
+    cout: "gratuit",
+    dateDebut: "2026-08-20",
+    dateFin: "2026-08-20",
+    heure: "10h00 – 11h00",
+    lieu: "En ligne",
+    description: "Introduction à Revizto pour les entrepreneurs généraux et spécialisés : navigation dans les maquettes, création d'enjeux, rapports de chantier et collaboration interdisciplinaire.",
+    lienInscription: "https://revizto.com/fr/events/",
+    lienInfo: "https://revizto.com/fr/events/"
+  },
+  {
+    id: "evt11",
+    titre: "buildingSMART International Summit — Printemps 2026",
+    organisateur: "buildingSMART International",
+    type: "conference",
+    format: "hybride",
+    cout: "payant",
+    dateDebut: "2026-04-07",
+    dateFin: "2026-04-09",
+    heure: "Journée complète",
+    lieu: "À confirmer (international)",
+    description: "Sommet bisannuel de buildingSMART International réunissant les experts openBIM mondiaux. Travaux sur les standards IFC, la digitalisation du secteur bâti et les normes ISO 19650. Billets virtuels disponibles.",
+    lienInscription: "https://www.buildingsmart.org/international-summits/",
+    lienInfo: "https://www.buildingsmart.org/international-summits/"
+  },
+  {
+    id: "evt12",
+    titre: "Autodesk University 2026",
+    organisateur: "Autodesk",
+    type: "conference",
+    format: "presentiel",
+    cout: "payant",
+    dateDebut: "2026-10-05",
+    dateFin: "2026-10-08",
+    heure: "Journée complète",
+    lieu: "À confirmer (É.-U.)",
+    description: "La conférence annuelle majeure d'Autodesk pour les professionnels AEC. Ateliers pratiques, keynotes, démonstrations Revit, Forma et Construction Cloud. Contenu disponible en rediffusion après l'événement.",
+    lienInscription: "https://www.autodesk.com/events",
+    lienInfo: "https://www.autodesk.com/events"
+  },
+  {
+    id: "evt13",
+    titre: "Building Transformations Canada — Conférence annuelle 2026",
+    organisateur: "Building Transformations Canada",
+    type: "conference",
+    format: "hybride",
+    cout: "payant",
+    dateDebut: "2026-10-21",
+    dateFin: "2026-10-22",
+    heure: "Journée complète",
+    lieu: "Toronto, Ontario",
+    description: "Conférence canadienne sur la transformation numérique dans le secteur de la construction. Thèmes : IA en construction, jumeaux numériques, livraison intégrée de projet et adoption des standards openBIM.",
+    lienInscription: "https://buildingtransformations.ca",
+    lienInfo: "https://buildingtransformations.ca"
+  },
+  {
+    id: "evt14",
+    titre: "Grands Bâtisseurs — Forum annuel construction Québec 2026",
+    organisateur: "Grands Bâtisseurs",
+    type: "conference",
+    format: "presentiel",
+    cout: "payant",
+    dateDebut: "2026-11-04",
+    dateFin: "2026-11-05",
+    heure: "Journée complète",
+    lieu: "Montréal",
+    description: "Forum annuel rassemblant les acteurs majeurs de la construction au Québec. Discussions sur la productivité, le virage numérique et les enjeux réglementaires. Présence d'entrepreneurs généraux, donneurs d'ouvrage et fournisseurs technologiques.",
+    lienInscription: "https://grandsbatisseurs.com",
+    lienInfo: "https://grandsbatisseurs.com"
+  },
+  {
+    id: "evt15",
+    titre: "AEQ — Journée de l'innovation en construction 2026",
+    organisateur: "Association des entrepreneurs en construction du Québec (AEQ)",
+    type: "conference",
+    format: "presentiel",
+    cout: "payant",
+    dateDebut: "2026-09-24",
+    dateFin: "2026-09-24",
+    heure: "8h30 – 17h00",
+    lieu: "Montréal",
+    description: "Journée dédiée aux technologies et innovations pour les entrepreneurs en construction au Québec. Conférences sur le BIM, la gestion de projet numérique, les outils de chantier connectés et les enjeux de main-d'œuvre.",
+    lienInscription: "https://www.aeq.ca",
+    lienInfo: "https://www.aeq.ca"
+  },
+  {
+    id: "evt16",
+    titre: "buildingSMART International Summit — Automne 2026",
+    organisateur: "buildingSMART International",
+    type: "conference",
+    format: "hybride",
+    cout: "payant",
+    dateDebut: "2026-09-28",
+    dateFin: "2026-09-30",
+    heure: "Journée complète",
+    lieu: "À confirmer (international)",
+    description: "Deuxième sommet bisannuel de buildingSMART International en 2026. Travaux sur les normes IFC, openBIM et ISO 19650. Diffusion en direct pour les participants virtuels.",
+    lienInscription: "https://www.buildingsmart.org/international-summits/",
+    lienInfo: "https://www.buildingsmart.org/international-summits/"
+  },
+  {
+    id: "evt17",
+    titre: "Feuille de route BIM Québec — Bilan et suite post-2026",
+    organisateur: "SQI / Secrétariat du Conseil du trésor",
+    type: "norme",
+    format: "virtuel",
+    cout: "gratuit",
+    dateDebut: "2026-06-15",
+    dateFin: "2026-06-15",
+    heure: "À confirmer",
+    lieu: "En ligne",
+    description: "Publication attendue du bilan final de la Feuille de route gouvernementale BIM 2021-2026 et annonce des orientations pour la prochaine phase. Concerne les 8 donneurs d'ouvrage publics engagés (SQI, Hydro-Québec, villes, etc.).",
+    lienInscription: null,
+    lienInfo: "https://www.sqi.gouv.qc.ca/feuille-de-route-gouvernementale-pour-le-bim"
+  }
+];
+
+// ============================================================
+// LOGIQUE APP
+// ============================================================
+const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const MOIS_COURT = ['Jan','Fév','Mars','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+const TYPE_LABELS = { conference:'Conférence', webinaire:'Webinaire', formation:'Formation', norme:'Appel / Norme', outil:'Outil', autre:'Autre' };
+
+let filters = { type:'tous', format:'tous', cout:'tous' };
+let currentView = 'list';
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+
+function init() {
+  // Afficher date de mise à jour
+  const d = new Date(DATA_DATE);
+  document.getElementById('lastUpdate').textContent =
+    `Données du ${d.getDate()} ${MOIS_FR[d.getMonth()]} ${d.getFullYear()}`;
+
+  // Vérifier si mise à jour nécessaire (données > 30 jours)
+  const daysSince = Math.floor((Date.now() - new Date(DATA_DATE)) / 86400000);
+  if (daysSince > 30) {
+    document.getElementById('updateBanner').style.display = 'flex';
+  }
+
+  // Stats (événements à venir seulement)
+  const now = new Date().toISOString().slice(0,10);
+  const in30 = new Date(Date.now() + 30*86400000).toISOString().slice(0,10);
+  const futurs = EVENTS.filter(e => e.dateFin >= now);
+  document.getElementById('statTotal').textContent = futurs.length;
+  document.getElementById('statProchain').textContent = futurs.filter(e => e.dateDebut >= now && e.dateDebut <= in30).length;
+  document.getElementById('statVirtuel').textContent = futurs.filter(e => e.format === 'virtuel').length;
+  document.getElementById('statGratuit').textContent = futurs.filter(e => e.cout === 'gratuit').length;
+
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const today = new Date().toISOString().slice(0,10);
+  const filtered = EVENTS.filter(e => {
+    if (e.dateFin < today) return false; // masquer les événements passés
+    if (filters.type !== 'tous' && e.type !== filters.type) return false;
+    if (filters.format !== 'tous' && e.format !== filters.format) return false;
+    if (filters.cout !== 'tous' && e.cout !== filters.cout) return false;
+    if (q && !(`${e.titre} ${e.organisateur} ${e.description} ${e.lieu}`).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  filtered.sort((a,b) => a.dateDebut.localeCompare(b.dateDebut));
+  if (currentView === 'list') renderList(filtered);
+  else renderCalendar(filtered);
+}
+
+function setFilter(key, val, btn) {
+  filters[key] = val;
+  document.querySelectorAll(`[data-filter="${key}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('btnList').classList.toggle('active', v === 'list');
+  document.getElementById('btnCal').classList.toggle('active', v === 'calendar');
+  document.getElementById('listView').style.display = v === 'list' ? 'flex' : 'none';
+  document.getElementById('calendarView').style.display = v === 'calendar' ? 'block' : 'none';
+  applyFilters();
+}
+
+function renderList(events) {
+  const lv = document.getElementById('listView');
+  if (!events.length) { lv.innerHTML = '<div class="empty-state">Aucun événement ne correspond aux filtres sélectionnés.</div>'; return; }
+  lv.innerHTML = events.map(e => {
+    const d = new Date(e.dateDebut + 'T12:00:00');
+    return `<div class="event-card" onclick="openModal('${e.id}')">
+      <div class="event-date-col">
+        <span class="date-month">${MOIS_COURT[d.getMonth()]}</span>
+        <span class="date-day">${d.getDate()}</span>
+        <span class="date-year">${d.getFullYear()}</span>
+      </div>
+      <div class="event-body">
+        <div class="event-top">
+          <span class="badge badge-${e.type}">${TYPE_LABELS[e.type]||e.type}</span>
+          <span class="badge badge-${e.format}">${e.format.charAt(0).toUpperCase()+e.format.slice(1)}</span>
+          <span class="badge badge-${e.cout}">${e.cout.charAt(0).toUpperCase()+e.cout.slice(1)}</span>
+        </div>
+        <div class="event-title">${e.titre}</div>
+        <div class="event-desc">${e.description}</div>
+        <div class="event-meta">
+          ${e.heure ? `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${e.heure}</span>` : ''}
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${e.lieu}</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${e.organisateur}</span>
+        </div>
+      </div>
+      <div class="event-actions" onclick="event.stopPropagation()">
+        <a class="btn-cal" href="${buildCalLink(e)}" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          + Calendrier
+        </a>
+        ${e.lienInscription ? `<a class="btn-inscr" href="${e.lienInscription}" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          S'inscrire
+        </a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCalendar(events) {
+  document.getElementById('calMonthTitle').textContent = `${MOIS_FR[calMonth]} ${calYear}`;
+  const grid = document.getElementById('calGrid');
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+  const today = new Date();
+  let cells = [];
+  for (let i = firstDay-1; i >= 0; i--) cells.push({day: daysInPrev-i, other: true});
+  for (let d = 1; d <= daysInMonth; d++) cells.push({day: d, other: false});
+  while (cells.length % 7 !== 0) cells.push({day: cells.length-firstDay-daysInMonth+1, other: true});
+  grid.innerHTML = cells.map(cell => {
+    const isToday = !cell.other && cell.day === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(cell.day).padStart(2,'0')}`;
+    const dayEvents = cell.other ? [] : events.filter(e => e.dateDebut <= dateStr && e.dateFin >= dateStr);
+    return `<div class="cal-day${cell.other?' other-month':''}${isToday?' today':''}">
+      <div class="cal-day-num">${cell.day}</div>
+      ${dayEvents.map(e => `<span class="cal-event-pill type-${e.type}" onclick="openModal('${e.id}')">${e.titre}</span>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  applyFilters();
+}
+
+function buildCalLink(e) {
+  const fmt = d => d.replace(/-/g,'');
+  const title = encodeURIComponent(e.titre);
+  const loc = encodeURIComponent(e.lieu);
+  const desc = encodeURIComponent(e.description + (e.lienInscription ? '\n\nInscription: '+e.lienInscription : ''));
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(e.dateDebut)}/${fmt(e.dateFin)}&details=${desc}&location=${loc}`;
+}
+
+function openModal(id) {
+  const e = EVENTS.find(ev => ev.id === id);
+  if (!e) return;
+  const d = new Date(e.dateDebut+'T12:00:00');
+  const df = new Date(e.dateFin+'T12:00:00');
+  const dateStr = e.dateDebut === e.dateFin
+    ? `${d.getDate()} ${MOIS_FR[d.getMonth()]} ${d.getFullYear()}`
+    : `${d.getDate()} ${MOIS_FR[d.getMonth()]} – ${df.getDate()} ${MOIS_FR[df.getMonth()]} ${df.getFullYear()}`;
+  document.getElementById('modalContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap;">
+      <span class="badge badge-${e.type}">${TYPE_LABELS[e.type]}</span>
+      <span class="badge badge-${e.format}">${e.format.charAt(0).toUpperCase()+e.format.slice(1)}</span>
+      <span class="badge badge-${e.cout}">${e.cout.charAt(0).toUpperCase()+e.cout.slice(1)}</span>
+    </div>
+    <h2>${e.titre}</h2>
+    <div class="modal-body">
+      <div class="modal-row"><span class="modal-row-label">Date</span><span class="modal-row-value">${dateStr}${e.heure ? ' · '+e.heure : ''}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Lieu</span><span class="modal-row-value">${e.lieu}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Organisateur</span><span class="modal-row-value">${e.organisateur}</span></div>
+      <div class="modal-row"><span class="modal-row-label">Description</span><span class="modal-row-value">${e.description}</span></div>
+      ${e.lienInfo ? `<div class="modal-row"><span class="modal-row-label">Plus d'info</span><span class="modal-row-value"><a href="${e.lienInfo}" target="_blank">${e.lienInfo}</a></span></div>` : ''}
+    </div>
+    <div class="modal-actions">
+      <a class="btn-primary" href="${buildCalLink(e)}" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Ajouter au calendrier
+      </a>
+      ${e.lienInscription ? `<a class="btn-secondary" href="${e.lienInscription}" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        S'inscrire
+      </a>` : ''}
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// Démarrage
+setView('list');
+init();
+</script>
+</body>
+</html>
